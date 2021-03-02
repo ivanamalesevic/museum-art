@@ -1,5 +1,9 @@
-import Express from 'express'
+import { request } from 'express';
+import { createRequire } from 'module';
 
+const require = createRequire(import.meta.url);
+
+//mock data to be consumed
 var collection = {
     "collection": [
         {
@@ -120,22 +124,22 @@ var tree = {
     ]
 }
 
-const app = Express()
-const port = 3030 
+const express = require('express')
+const app = express()
+const port = 3030
 
-const getCollection = () => {
-    app.get('/collection/', (req, res) => {
-        res.json(tree)
-    })
-}
+app.get('/', (req, res) => {
+    res.send('Welcome to Express API!')
+})
 
-const getCollectionById = () => {
-    app.get('/collection/:id', (req, res) => {
-        res.json(collection.collection.find((col) => col.id === req.params.id))
-    })
-}
+//get collection
+app.get('/getCollection', (req, res) => {
+   res.send(tree)
+})
 
-getCollection()
-getCollectionById()
- 
-app.listen(port, () => console.log("listening on port " + port))
+//get collection by id
+app.get('/getItemById/:id', (req, res) => {
+    res.json(collection.collection.find((item) => item.id === req.params.id))
+})
+
+app.listen(port, () => console.log(`Listening on port ${port}...`))
