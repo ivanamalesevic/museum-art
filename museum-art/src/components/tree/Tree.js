@@ -30,6 +30,10 @@ const Tree = () => {
     radios: {
       width: "100%",
     },
+    treeDiv: {
+        borderRight: '1px lightgray solid',
+        height: '100vh'
+    }
   }));
 
   const classes = useStyles();
@@ -87,8 +91,8 @@ const Tree = () => {
   };
 
   return (
-    <Grid item xs={6}>
-      <div>
+    <Grid item xs={4} className={classes.treeDiv}>
+      <div >
         <FormControl component="fieldset" className={classes.radios}>
           <RadioGroup
             row
