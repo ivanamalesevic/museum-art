@@ -16,7 +16,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 // import { SearchIcon } from "@material-ui/icons";
 
-const Tree = () => {
+const Tree = (props) => {
   const [collection, setCollection] = useState({});
   const [typeFilter, setTypeFilter] = useState("all");
   const [searchName, setSearchName] = useState("");
@@ -33,6 +33,11 @@ const Tree = () => {
     treeDiv: {
         borderRight: '1px lightgray solid',
         height: '100vh'
+    },
+    treeItem: {
+      ':visited':{
+        color: 'blue'
+      }
     }
   }));
 
@@ -76,10 +81,13 @@ const Tree = () => {
         <TreeItem key={col.id} nodeId={col.id} label={col.name}>
           {col.collection.map((item) => {
             return (typeFilter === "all" || typeFilter === item.type) && (searchName === "" || item.name.toLowerCase().includes(searchName.toLowerCase())) ? (
-              <TreeItem
+              <TreeItem className={classes.treeItem}
                 key={item.id}
                 nodeId={item.id}
                 label={item.name}
+                onClick={() => {
+                  props.setItemId(item.id);
+                }}
               ></TreeItem>
             ) : (
               <></>

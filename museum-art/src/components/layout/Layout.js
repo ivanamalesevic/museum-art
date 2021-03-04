@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Grid } from '@material-ui/core'
 import Tree from '../tree/Tree'
 import DetailPreview from '../detail-preview/DetailPreview'
@@ -29,10 +29,23 @@ const Layout = () => {
 
     // }
 
+    const [itemId, setItemId] = useState(0)
+    
+    const usePrevious = () => {
+        const ref = useRef()
+        useEffect(() => {
+            ref.current = itemId
+        })
+        return ref.current
+    }
+    // console.log(`parent ${itemId}`)
+
+    const prevId = usePrevious()
+   
     return(
         <Grid container>
-           <Tree />
-           <DetailPreview />
+           <Tree setItemId={setItemId}/>
+          {itemId > 0 ? <DetailPreview itemId={itemId}/> : <></>}
         </Grid>
     )
 }
