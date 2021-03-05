@@ -1,0 +1,83 @@
+import React, {useState} from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import axios from 'axios'
+
+import { Grid, TextField, Button } from "@material-ui/core";
+
+const DetailEdit = (props) => {
+    const [title, setTitle] = useState(props.item.name)
+    const [url, setUrl] = useState(props.item.url)
+    const [description, setDescription] = useState(props.item.description)
+
+  const useStyles = makeStyles((theme) => ({
+    editDiv: {
+      borderRight: "1px lightgray solid",
+      height: "100vh",
+    },
+    input: {
+      width: "90%",
+    },
+    inputMulti: {
+      width: "90%",
+    //   height: "60vh",
+    },
+    button: {
+        margin: '20px'
+    }
+  }));
+
+  const classes = useStyles();
+
+  const updateItem = () => {
+    axios.put('/updateItem/', {
+
+            item: {
+                id: props.item.id,
+                name: title,
+                url: url,
+                description: description
+            }
+    }).then(result=> console.log(result))
+  }
+
+  return (
+    <Grid item xs={6} className={classes.editDiv}>
+      <h5>Title</h5>
+      <TextField
+        id="title"
+        variant="outlined"
+        className={classes.input}
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      />
+      <h5>Image URL</h5>
+      <TextField
+        id="URL"
+        variant="outlined"
+        className={classes.input}
+        value={url}
+        onChange={(e) => setUrl(e.target.value)}
+      />
+      <h5>Description</h5>
+      <TextField
+        id="description"
+        multiline
+        rows={28}
+        variant="outlined"
+        className={classes.inputMulti}
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+      />
+      <Grid container>
+        <Button className={classes.button} variant="contained" color="primary" onClick={() => updateItem()}>
+          Save
+        </Button>
+        <Button className={classes.button} variant="outlined" color="primary">
+          Preview
+        </Button>
+      </Grid>
+    </Grid>
+  );
+};
+
+export default DetailEdit;

@@ -5,13 +5,12 @@ import axios from "axios";
 
 const DetailPreview = (props) => {
   const [item, setItem] = useState({});
-  const [itemId, setItemId] = useState(props.itemId)
+  const [itemId, setItemId] = useState(props.itemId);
 
   useEffect(() => {
-    setItemId(props.itemId)
+    setItemId(props.itemId);
     getItemById();
   }, [props.itemId]);
-
 
   const getItemById = () => {
     let itm = JSON.parse(localStorage.getItem(`item${props.itemId}`));
@@ -21,7 +20,10 @@ const DetailPreview = (props) => {
         .then((result) => {
           if (result.status === 200) {
             setItem(result.data);
-            localStorage.setItem(`item${props.itemId}`, JSON.stringify(result.data));
+            localStorage.setItem(
+              `item${props.itemId}`,
+              JSON.stringify(result.data)
+            );
           }
         })
         .catch((error) =>
@@ -59,7 +61,7 @@ const DetailPreview = (props) => {
   const classes = useStyles();
 
   return (
-    <Grid item xs={8}>
+    <Grid item xs={6}>
       <div className={classes.imgDiv}>
         <img className={classes.itemImg} src={item.url} alt="Art" />
       </div>
@@ -74,6 +76,10 @@ const DetailPreview = (props) => {
               variant="contained"
               size="medium"
               color="primary"
+              onClick={() => {
+                props.setEdit(true);
+                props.setItem(item);
+              }}
             >
               Edit
             </Button>

@@ -3,6 +3,7 @@ import { Grid } from '@material-ui/core'
 import Tree from '../tree/Tree'
 import DetailPreview from '../detail-preview/DetailPreview'
 import axios from 'axios'
+import DetailEdit from '../detail-edit/DetailEdit'
 
 const Layout = () => {
     // const getCollection = () => {
@@ -30,22 +31,24 @@ const Layout = () => {
     // }
 
     const [itemId, setItemId] = useState(0)
+    const [edit, setEdit] = useState(false)
+    const [item, setItem] = useState({})
     
-    const usePrevious = () => {
-        const ref = useRef()
-        useEffect(() => {
-            ref.current = itemId
-        })
-        return ref.current
-    }
+    // const usePrevious = () => {
+    //     const ref = useRef()
+    //     useEffect(() => {
+    //         ref.current = itemId
+    //     })
+    //     return ref.current
+    // }
     // console.log(`parent ${itemId}`)
 
-    const prevId = usePrevious()
+    // const prevId = usePrevious()
    
     return(
         <Grid container>
-           <Tree setItemId={setItemId}/>
-          {itemId > 0 ? <DetailPreview itemId={itemId}/> : <></>}
+          {edit ? <DetailEdit item={item}/> : <Tree setItemId={setItemId}/>}
+          {itemId > 0 ? <DetailPreview itemId={itemId} setEdit={setEdit} setItem={setItem}/> : <></>}
         </Grid>
     )
 }

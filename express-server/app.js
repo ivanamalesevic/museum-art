@@ -1,3 +1,4 @@
+
 import { request } from 'express';
 import { createRequire } from 'module';
 
@@ -125,6 +126,7 @@ var tree = {
 }
 
 const express = require('express')
+const bodyParser = require('body-parser')
 const app = express()
 const port = 3030
 
@@ -137,9 +139,25 @@ app.get('/getCollection', (req, res) => {
    res.send(tree)
 })
 
-//get collection by id
+//get item by id
 app.get('/getItemById/:id', (req, res) => {
     res.json(collection.collection.find((item) => item.id === req.params.id))
+})
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.raw());
+
+//updateItem
+app.put('/updateItem/', (req, res) => {
+    let itm = req.body.item
+    let index = collection.collection.indexOf(collection.collection.find((item) => item.id === itm.id))
+    collection.collection[index] = itm
+
+    // index = tree.collection.map((col) => col).
+    // indexOf(tree.collection.find((item) => item.id === itm.id))
+    // tree.collection[index] = itm
+    // console.log(tree)
 })
 
 app.listen(port, () => console.log(`Listening on port ${port}...`))
