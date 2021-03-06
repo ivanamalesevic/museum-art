@@ -14,7 +14,7 @@ const Layout = () => {
 
   return (
     <Grid container>
-      {edit ? <DetailEdit item={item} setEdit={setEdit} setPreview={setPreview} setItemId={setItemId}/> : <Tree setItemId={setItemId} />}
+      {edit ? <DetailEdit item={item} setEdit={setEdit} setPreview={setPreview} setItemId={setItemId}/> : <Tree setItemId={setItemId} itemId={itemId}/>}
       {itemId > 0 ? (
         <DetailPreview
           itemId={itemId}

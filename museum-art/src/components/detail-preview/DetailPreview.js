@@ -5,10 +5,8 @@ import axios from "axios";
 
 const DetailPreview = (props) => {
   const [item, setItem] = useState({});
-  const [itemId, setItemId] = useState(props.itemId);
 
   useEffect(() => {
-    setItemId(props.itemId);
     getItemById();
   }, [props.itemId]);
 

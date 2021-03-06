@@ -32,7 +32,7 @@ const DetailEdit = (props) => {
       alert("All fields must have a value!");
       return false;
     } else {
-      var regex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+      var regex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
       if (!regex.test(url)) {
         alert("Please enter a valid URL!");
         return false;
@@ -72,7 +72,10 @@ const DetailEdit = (props) => {
         })
         .then(() => {
           props.setEdit(false);
-          // props.setItemId(props.item.id)
+          let id = props.item.id;
+          props.setItemId(0);
+          props.setItemId(id);
+          props.setPreview(null);
         })
         .catch((err) => console.error(`Unable to update item! ${err}`));
     } else {

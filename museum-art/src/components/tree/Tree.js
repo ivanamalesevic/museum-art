@@ -9,12 +9,13 @@ import {
   TextField,
   Dialog,
   DialogContent,
+  InputAdornment
 } from "@material-ui/core";
 import { TreeItem, TreeView } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-// import { SearchIcon } from "@material-ui/icons";
+import SearchIcon from "@material-ui/icons/Search";
 
 const Tree = (props) => {
   const [collection, setCollection] = useState({});
@@ -31,14 +32,14 @@ const Tree = (props) => {
       width: "100%",
     },
     treeDiv: {
-        borderRight: '1px lightgray solid',
-        height: '100vh'
+      borderRight: "1px lightgray solid",
+      height: "100vh"
     },
     treeItem: {
-      ':visited':{
-        color: 'blue'
-      }
-    }
+      ":visited": {
+        color: "blue",
+      },
+    },
   }));
 
   const classes = useStyles();
@@ -78,10 +79,18 @@ const Tree = (props) => {
   const displayData = () => {
     return collection.collection.map((col) => {
       return (
-        <TreeItem key={col.id} nodeId={col.id} label={col.name}>
+        <TreeItem
+          key={col.id}
+          nodeId={col.id}
+          label={col.name}
+          selected={props.itemId}
+        >
           {col.collection.map((item) => {
-            return (typeFilter === "all" || typeFilter === item.type) && (searchName === "" || item.name.toLowerCase().includes(searchName.toLowerCase())) ? (
-              <TreeItem className={classes.treeItem}
+            return (typeFilter === "all" || typeFilter === item.type) &&
+              (searchName === "" ||
+                item.name.toLowerCase().includes(searchName.toLowerCase())) ? (
+              <TreeItem
+                className={classes.treeItem}
                 key={item.id}
                 nodeId={item.id}
                 label={item.name}
@@ -100,7 +109,7 @@ const Tree = (props) => {
 
   return (
     <Grid item xs={4} className={classes.treeDiv}>
-      <div >
+      <div>
         <FormControl component="fieldset" className={classes.radios}>
           <RadioGroup
             row
@@ -128,14 +137,16 @@ const Tree = (props) => {
           type="search"
           variant="outlined"
           value={searchName}
-          onChange={(e) => {setSearchName(e.target.value)}}
-          // InputProps={{
-          //   startAdornment: (
-          //     <InputAdornment position="end">
-          //       <SearchIcon />
-          //     </InputAdornment>
-          //   ),
-          // }}
+          onChange={(e) => {
+            setSearchName(e.target.value);
+          }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="beginning">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
         />
       </div>
       <br />
@@ -143,6 +154,7 @@ const Tree = (props) => {
       <TreeView
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
+        selected={props.itemId > 0 ? [props.itemId] : []}
       >
         <TreeItem nodeId={collection.id} label={collection.name}>
           {displayData()}
