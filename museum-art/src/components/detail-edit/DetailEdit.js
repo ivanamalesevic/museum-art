@@ -1,13 +1,13 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import axios from 'axios'
+import axios from "axios";
 
 import { Grid, TextField, Button } from "@material-ui/core";
 
 const DetailEdit = (props) => {
-    const [title, setTitle] = useState(props.item.name)
-    const [url, setUrl] = useState(props.item.url)
-    const [description, setDescription] = useState(props.item.description)
+  const [title, setTitle] = useState(props.item.name);
+  const [url, setUrl] = useState(props.item.url);
+  const [description, setDescription] = useState(props.item.description);
 
   const useStyles = makeStyles((theme) => ({
     editDiv: {
@@ -19,26 +19,65 @@ const DetailEdit = (props) => {
     },
     inputMulti: {
       width: "90%",
-    //   height: "60vh",
     },
     button: {
-        margin: '20px'
-    }
+      margin: "20px",
+    },
   }));
 
   const classes = useStyles();
 
-  const updateItem = () => {
-    axios.put('/updateItem/', {
+  const validateForm = () => {
+    if (title === "" || url === "" || description === "") {
+      alert("All fields must have a value!");
+      return false;
+    } else {
+      var regex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+      if (!regex.test(url)) {
+        alert("Please enter a valid URL!");
+        return false;
+      }
+    }
+    return true;
+  };
 
-            item: {
-                id: props.item.id,
-                name: title,
-                url: url,
-                description: description
+  const updateItem = () => {
+    if (validateForm()) {
+      axios
+        .put("/updateItem/", {
+          item: {
+            id: props.item.id,
+            name: title,
+            url: url,
+            description: description,
+            type: props.item.type,
+          },
+        })
+        .then((result) => {
+          if (result.status === 200) {
+            if (localStorage.getItem(`item${props.item.id}`) !== undefined) {
+              localStorage.setItem(
+                `item${props.item.id}`,
+                JSON.stringify(result.data.item)
+              );
             }
-    }).then(result=> console.log(result))
-  }
+
+            if (localStorage.getItem("collection") !== undefined) {
+              localStorage.setItem(
+                "collection",
+                JSON.stringify(result.data.tree)
+              );
+            }
+          }
+        })
+        .then(() => {
+          props.setEdit(false);
+          // props.setItemId(props.item.id)
+        })
+        .catch((err) => console.error(`Unable to update item! ${err}`));
+    } else {
+    }
+  };
 
   return (
     <Grid item xs={6} className={classes.editDiv}>
@@ -69,10 +108,28 @@ const DetailEdit = (props) => {
         onChange={(e) => setDescription(e.target.value)}
       />
       <Grid container>
-        <Button className={classes.button} variant="contained" color="primary" onClick={() => updateItem()}>
+        <Button
+          className={classes.button}
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            updateItem();
+          }}
+        >
           Save
         </Button>
-        <Button className={classes.button} variant="outlined" color="primary">
+        <Button
+          className={classes.button}
+          variant="outlined"
+          color="primary"
+          onClick={() => {
+            props.setPreview({
+              name: title,
+              url: url,
+              description: description,
+            });
+          }}
+        >
           Preview
         </Button>
       </Grid>

@@ -56,7 +56,7 @@ const Tree = (props) => {
             setLoadingData(false);
           }
         })
-        .catch((err) => console.error("Unable to get collection!"));
+        .catch((err) => console.error(`Unable to get collection! ${err}`));
     } else {
       setCollection(col);
       setLoadingData(false);

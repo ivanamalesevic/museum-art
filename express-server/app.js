@@ -154,10 +154,14 @@ app.put('/updateItem/', (req, res) => {
     let index = collection.collection.indexOf(collection.collection.find((item) => item.id === itm.id))
     collection.collection[index] = itm
 
-    // index = tree.collection.map((col) => col).
-    // indexOf(tree.collection.find((item) => item.id === itm.id))
-    // tree.collection[index] = itm
-    // console.log(tree)
+    tree.collection.map(col => col.collection.map(i => {
+        if(i.id === itm.id){
+            i.name = itm.name
+        }
+        return i
+    }))
+   
+    res.send({item: itm, tree: tree})
 })
 
 app.listen(port, () => console.log(`Listening on port ${port}...`))

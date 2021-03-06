@@ -27,7 +27,7 @@ const DetailPreview = (props) => {
           }
         })
         .catch((error) =>
-          console.error(`Unable to get item with the specified id!`)
+          console.error(`Unable to get item with the specified id! ${error}`)
         );
     } else {
       setItem(itm);
@@ -38,10 +38,12 @@ const DetailPreview = (props) => {
     imgDiv: {
       height: "40vh",
       borderBottom: "1px lightgray solid",
+      width: '100%'
     },
     descDiv: {
       height: "60vh",
       margin: "10px",
+      width: "100%"
     },
     itemImg: {
       maxHeight: "90%",
@@ -63,12 +65,12 @@ const DetailPreview = (props) => {
   return (
     <Grid item xs={6}>
       <div className={classes.imgDiv}>
-        <img className={classes.itemImg} src={item.url} alt="Art" />
+        <img className={classes.itemImg} src={props.preview != null ? props.preview.url : item.url} alt="Art" />
       </div>
       <div className={classes.descDiv}>
         <Grid container>
           <Grid item xs={10}>
-            <h3>{item.name}</h3>
+            <h3>{props.preview !== null ? props.preview.name : item.name}</h3>
           </Grid>
           <Grid item xs={2}>
             <Button
@@ -80,12 +82,13 @@ const DetailPreview = (props) => {
                 props.setEdit(true);
                 props.setItem(item);
               }}
+              style={{visibility: props.edit ? "hidden" : "visible"}}
             >
               Edit
             </Button>
           </Grid>
         </Grid>
-        <p className={classes.itemDesc}>{item.description}</p>
+        <p className={classes.itemDesc}>{props.preview !== null ? props.preview.description : item.description}</p>
       </div>
     </Grid>
   );
