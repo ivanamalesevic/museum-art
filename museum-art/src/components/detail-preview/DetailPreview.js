@@ -61,14 +61,14 @@ const DetailPreview = (props) => {
   const classes = useStyles();
 
   return (
-    <Grid item xs={6}>
+    <Grid item xs={props.edit ? 6 : 8}>
       <div className={classes.imgDiv}>
         <img className={classes.itemImg} src={props.preview != null ? props.preview.url : item.url} alt="Art" />
       </div>
       <div className={classes.descDiv}>
         <Grid container>
           <Grid item xs={10}>
-            <h3>{props.preview !== null ? props.preview.name : item.name}</h3>
+            <h2>{props.preview !== null ? props.preview.name : item.name}</h2>
           </Grid>
           <Grid item xs={2}>
             <Button

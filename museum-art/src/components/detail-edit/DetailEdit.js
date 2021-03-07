@@ -13,6 +13,9 @@ const DetailEdit = (props) => {
     editDiv: {
       borderRight: "1px lightgray solid",
       height: "100vh",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
     },
     input: {
       width: "90%",
@@ -22,7 +25,12 @@ const DetailEdit = (props) => {
     },
     button: {
       margin: "20px",
+      marginLeft: '5%'
     },
+    label:{
+      alignSelf: 'flex-start',
+      marginLeft: '5%'
+    }
   }));
 
   const classes = useStyles();
@@ -84,7 +92,7 @@ const DetailEdit = (props) => {
 
   return (
     <Grid item xs={6} className={classes.editDiv}>
-      <h5>Title</h5>
+      <h4 className={classes.label}>Title</h4>
       <TextField
         id="title"
         variant="outlined"
@@ -92,7 +100,7 @@ const DetailEdit = (props) => {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
-      <h5>Image URL</h5>
+      <h4 className={classes.label}>Image URL</h4>
       <TextField
         id="URL"
         variant="outlined"
@@ -100,7 +108,7 @@ const DetailEdit = (props) => {
         value={url}
         onChange={(e) => setUrl(e.target.value)}
       />
-      <h5>Description</h5>
+      <h4 className={classes.label}>Description</h4>
       <TextField
         id="description"
         multiline

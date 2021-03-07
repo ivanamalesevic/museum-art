@@ -9,7 +9,7 @@ import {
   TextField,
   Dialog,
   DialogContent,
-  InputAdornment
+  InputAdornment,
 } from "@material-ui/core";
 import { TreeItem, TreeView } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
@@ -25,20 +25,25 @@ const Tree = (props) => {
 
   const useStyles = makeStyles((theme) => ({
     searchField: {
-      width: "80%",
+      width: "100%",
       maxHeight: "30px",
     },
     radios: {
       width: "100%",
     },
     treeDiv: {
-      borderRight: "1px lightgray solid",
-      height: "100vh"
+      height: "100vh",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      borderRight: '1px lightgray solid'
     },
-    treeItem: {
-      ":visited": {
-        color: "blue",
-      },
+    treeView: {
+      alignSelf: "flex-start",
+      marginLeft: "7%",
+    },
+    radio: {
+      marginRight: "25%",
     },
   }));
 
@@ -118,11 +123,17 @@ const Tree = (props) => {
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
           >
-            <FormControlLabel value="all" control={<Radio />} label="All" />
+            <FormControlLabel
+              value="all"
+              control={<Radio />}
+              label="All"
+              className={classes.radio}
+            />
             <FormControlLabel
               value="painting"
               control={<Radio />}
               label="Painting"
+              className={classes.radio}
             />
             <FormControlLabel
               value="potery"
@@ -142,7 +153,7 @@ const Tree = (props) => {
           }}
           InputProps={{
             endAdornment: (
-              <InputAdornment position="beginning">
+              <InputAdornment position="start">
                 <SearchIcon />
               </InputAdornment>
             ),
@@ -155,6 +166,7 @@ const Tree = (props) => {
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
         selected={props.itemId > 0 ? [props.itemId] : []}
+        className={classes.treeView}
       >
         <TreeItem nodeId={collection.id} label={collection.name}>
           {displayData()}
