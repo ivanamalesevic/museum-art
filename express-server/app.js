@@ -127,7 +127,9 @@ var tree = {
 
 const express = require('express')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 const app = express()
+app.use(cors())
 const port = 3030
 
 app.get('/', (req, res) => {
