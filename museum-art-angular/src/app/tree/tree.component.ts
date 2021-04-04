@@ -19,7 +19,6 @@ export class TreeComponent implements OnInit {
   ngOnInit(): void {
     this.getItems();
     this.nestedDataSource.data = this.tree;
-    console.log(this.tree)
     console.log(this.nestedDataSource.data)
   }
 
@@ -32,14 +31,14 @@ export class TreeComponent implements OnInit {
         .then((response) => {
           if (response !== undefined && response !== null) {
             localStorage.setItem('collection', JSON.stringify(response));
-            
+            this.tree.push(response)
           }
         })
         .catch((err) => console.error(err));
     } else {
-      this.tree = col;
+      this.tree.push(col)
     }
   }
 
-  hasChild = (_: number, node: any) => node.collection && node.collection.length > 0
+  hasChild = (_: number, node: any) => !!node.collection && node.collection.length > 0
 }
