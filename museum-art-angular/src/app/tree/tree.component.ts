@@ -3,6 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 
+interface CollectionNode {
+  name?: string;
+  collection?: CollectionNode[];
+}
 
 @Component({
   selector: 'app-tree',
@@ -10,8 +14,8 @@ import { MatTreeNestedDataSource } from '@angular/material/tree';
   styleUrls: ['./tree.component.css'],
 })
 export class TreeComponent implements OnInit {
-  public tree: any = [];
-  nestedTreeControl = new NestedTreeControl<any>(node => node.children)
+  public tree: CollectionNode[] = [];
+  nestedTreeControl = new NestedTreeControl<CollectionNode>(node => node.collection);
   nestedDataSource: any = new MatTreeNestedDataSource<any>();
 
   constructor(private httpClient: HttpClient) {}
