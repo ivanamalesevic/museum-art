@@ -6,8 +6,8 @@
     "museum-art-angular": {
       "projectType": "application",
       "schematics": {
-        "@schematics/angular:application": {
-          "strict": true
+        "@schematics/angular:component": {
+          "styleext": "scss"
         }
       },
       "root": "",
