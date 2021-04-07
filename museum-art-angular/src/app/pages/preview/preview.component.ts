@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { DataServiceService } from '../../services/data-service.service';
 import { Router } from '@angular/router';
 import { ArtModel } from 'src/app/models/art-model';
+import { Subscription } from 'rxjs';
+import { StateServiceService } from 'src/app/services/state-service.service';
 
 
 @Component({
@@ -12,12 +14,16 @@ import { ArtModel } from 'src/app/models/art-model';
 })
 export class PreviewComponent implements OnInit {
   item: ArtModel = {};
- 
+  editIsEnabled: boolean = true;
+  subscription: Subscription;
   constructor(
     private dataService: DataServiceService,
     private route: ActivatedRoute,
-    public router: Router
-  ) {}
+    public router: Router,
+    private stateService: StateServiceService
+  ) {
+    this.subscription = this.stateService.editIsEnabled.subscribe(res => this.editIsEnabled = res)
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {

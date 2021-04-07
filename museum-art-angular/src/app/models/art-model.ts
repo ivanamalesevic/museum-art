@@ -3,5 +3,6 @@ export interface ArtModel {
     description?: string,
     url?: string,
     id?: number,
-    collection?: []
+    collection?: [],
+    type?: string
 }
