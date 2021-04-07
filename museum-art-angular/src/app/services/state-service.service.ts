@@ -7,5 +7,6 @@ import { BehaviorSubject } from 'rxjs';
 export class StateServiceService {
   hideTree = new BehaviorSubject<boolean>(false);
   editIsEnabled = new BehaviorSubject<boolean>(true);
+  hideEditComponent = new BehaviorSubject<boolean>(false);
   constructor() { }
 }

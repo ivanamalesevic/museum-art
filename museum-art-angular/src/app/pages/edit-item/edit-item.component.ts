@@ -10,7 +10,8 @@ import { StateServiceService } from 'src/app/services/state-service.service';
   styleUrls: ['./edit-item.component.scss'],
 })
 export class EditItemComponent implements OnInit, OnDestroy {
-  item: ArtModel = {};
+  // item: ArtModel = {};
+  hideEditComponent: boolean = false;
   constructor(
     private stateService: StateServiceService,
     private route: ActivatedRoute,
@@ -19,6 +20,7 @@ export class EditItemComponent implements OnInit, OnDestroy {
   ) {
     this.stateService.hideTree.next(true);
     this.stateService.editIsEnabled.next(false);
+    
   }
   ngOnDestroy(): void {
     this.stateService.hideTree.next(false);
@@ -26,22 +28,25 @@ export class EditItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(
-      (params) =>
-        (this.item = JSON.parse(
-          localStorage.getItem(`item${+params.get('id')!}`)!
-        ))
-    );
+    // this.route.paramMap.subscribe(
+    //   (params) =>
+    //     (this.item = JSON.parse(
+    //       localStorage.getItem(`item${+params.get('id')!}`)!
+    //     ))
+    // );
+    this.stateService.hideEditComponent.subscribe(res => this.hideEditComponent = res)
   }
 
-  saveEditedItem(): void {
-    this.item.name = (document.getElementById(
-      'title'
-    ) as HTMLInputElement).value;
-    this.item.url = (document.getElementById('url') as HTMLInputElement).value;
-    this.item.description = (document.getElementById(
-      'description'
-    ) as HTMLInputElement).value;
-    this.dataService.updateItem(this.item);
-  }
+  // saveEditedItem(): void {
+  //   this.item.name = (document.getElementById(
+  //     'title'
+  //   ) as HTMLInputElement).value;
+  //   this.item.url = (document.getElementById('url') as HTMLInputElement).value;
+  //   this.item.description = (document.getElementById(
+  //     'description'
+  //   ) as HTMLInputElement).value;
+  //   this.dataService.updateItem(this.item);
+  //   this.stateService.hideTree.next(false)
+  //   this.stateService.hideEditComponent.next(true)
+  // }
 }

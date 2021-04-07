@@ -1,0 +1,17 @@
+<div fxLayout="column" fxLayoutAlign="space-between stretch">
+    <mat-form-field>
+      <input matInput placeholder="Title" value="{{item.name}}" id="title"/>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="URL" value="{{item.url}}" id="url"/>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea matInput placeholder="Description" value="{{item.description}}" id="description"></textarea>
+    </mat-form-field>
+  
+    <div fxLayout="row" fxLayoutAlign="space-between stretch">
+      <button mat-raised-button color="primary" (click)="saveEditedItem()">Save</button>
+      <button mat-stroked-button color="primary">Preview</button>
+    </div>
+</div>
+  

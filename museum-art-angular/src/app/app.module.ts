@@ -16,6 +16,7 @@ import { EditItemComponent } from './pages/edit-item/edit-item.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ItemPreviewComponent } from './components/item-preview/item-preview.component';
 import { routing } from 'src/modules/routing-module/routing-module.module';
+import { ItemEditComponentChild } from './components/item-edit-child/item-edit-child.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { routing } from 'src/modules/routing-module/routing-module.module';
     PreviewComponent,
     EditItemComponent,
     ItemPreviewComponent,
+    ItemEditComponentChild,
   ],
   imports: [
     MatIconModule,
