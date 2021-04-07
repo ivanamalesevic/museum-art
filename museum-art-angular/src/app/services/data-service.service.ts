@@ -1,46 +1,41 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { ArtModel } from '../models/art-model';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DataServiceService {
+  constructor(private httpClient: HttpClient) {}
 
-  constructor(private httpClient: HttpClient) { }
+  getItems(): Observable<ArtModel> {
+    
+    let collection = JSON.parse(localStorage.getItem('collection')!);
+    if (collection != null) {
+      return of(collection);
+    }
 
-  getItems() {
-    let col = JSON.parse(localStorage.getItem('collection')!);
-    if (col === null) {
-      this.httpClient.get('http://localhost:3030/getCollection').subscribe(
-        (res) => {
-          if (res !== undefined && res !== null) {
-            localStorage.setItem('collection', JSON.stringify(res));
-            col = res;
-          }
-        },
-        (err) => {
-          console.log(err);
-        }
+    return this.httpClient
+      .get(`http://localhost:3030/getCollection`)
+      .pipe(
+        tap((data) => localStorage.setItem('collection', JSON.stringify(data)))
       );
-    } 
-    return col;
   }
 
-  getItemById(id: number) {
-     let itm = JSON.parse(localStorage.getItem(`item${id}`)!)
-     if(itm === null){
-       this.httpClient.get(`http://localhost:3030/getItemById/${id}`).subscribe(
-         (res) => {
-           if(res !== undefined && res !== null){
-             localStorage.setItem(`item${id}`, JSON.stringify(res))
-             itm = res;
-           }
-         },
-         (err) => {
-           console.log(err)
-         }
-       )
-     }
-     return itm;
+  getItemById(id: number): Observable<ArtModel> {
+    let item = JSON.parse(localStorage.getItem(`item${id}`)!);
+    if (item !== null) {
+      return of(item);
+    }
+
+    return this.httpClient
+      .get(`http://localhost:3030/getItemById/${id}`)
+      .pipe(
+        tap((data) =>
+          localStorage.setItem(`item${data.id}`, JSON.stringify(data))
+        )
+      );
   }
 }

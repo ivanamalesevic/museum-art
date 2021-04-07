@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DataServiceService } from '../../services/data-service.service';
 import { Router } from '@angular/router';
+import { ArtModel } from 'src/app/models/art-model';
+
 
 @Component({
   selector: 'app-preview',
@@ -9,8 +11,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./preview.component.scss'],
 })
 export class PreviewComponent implements OnInit {
-  item: any;
-
+  item: ArtModel = {};
+ 
   constructor(
     private dataService: DataServiceService,
     private route: ActivatedRoute,
@@ -19,7 +21,11 @@ export class PreviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      this.item = this.dataService.getItemById(+params.get('id')!);
+      this.getItemById(+params.get('id')!);
     });
+  }
+
+  getItemById(id: number): void{
+    this.dataService.getItemById(id).subscribe(res => this.item = res)
   }
 }

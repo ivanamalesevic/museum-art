@@ -12,9 +12,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { PreviewComponent } from './pages/preview/preview.component';
-import { RouterModule } from '@angular/router';
 import { EditItemComponent } from './pages/edit-item/edit-item.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { ItemPreviewComponent } from './components/item-preview/item-preview.component';
+import { routing } from 'src/modules/routing-module/routing-module.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     TreeComponent,
     PreviewComponent,
     EditItemComponent,
+    ItemPreviewComponent,
   ],
   imports: [
     MatIconModule,
@@ -34,17 +36,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatTreeModule,
     HttpClientModule,
     MatButtonModule,
-    RouterModule.forRoot([
-      {
-        path: 'item/:id/edit',
-        redirectTo: 'item/:id/edit',
-      },
-      {
-        path: 'item/:id',
-        component: PreviewComponent,
-        children: [{ path: 'edit', redirectTo: '../edit' }],
-      },
-    ]),
+    routing,
     FlexLayoutModule,
   ],
   providers: [],

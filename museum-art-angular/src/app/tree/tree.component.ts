@@ -25,11 +25,16 @@ export class TreeComponent implements OnInit {
   constructor(private dataService: DataServiceService) {}
 
   ngOnInit(): void {
-    this.dataChange.subscribe((data) => (this.nestedDataSource.data = data));
-    this.nestedDataSource.data.push(this.dataService.getItems());
+    this.getItems()
+    // this.dataChange.subscribe((data) => (this.nestedDataSource.data = data));
+
     this.nestedTreeControl.dataNodes = this.nestedDataSource.data;
     this.nestedTreeControl.expandAll();
     
+  }
+
+  getItems(): void{
+    this.dataService.getItems().subscribe(res => this.nestedDataSource.data.push(res))
   }
 
   hasChild = (_: number, node: any) =>

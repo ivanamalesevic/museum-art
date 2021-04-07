@@ -1,8 +1,7 @@
 <div fxLayout="row" fxLayoutAlign="start stretch">
-  <div
-    fxFlex="35"
-  ><app-tree></app-tree> </div>
+  
   <!-- <ng-template #tree></ng-template>
   <ng-template #edit><app-edit-item></app-edit-item></ng-template> -->
+  <app-tree *ngIf="!hideTree"></app-tree>
   <router-outlet></router-outlet>
 </div>

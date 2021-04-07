@@ -1,0 +1,13 @@
+<div fxLayout="column" fxLayoutAlign=" center" >
+    <div fxFlex="40">
+        <img src="{{item.url}}" height="200" width="200"/>
+    </div>
+    <div fxFlex="60">
+        <div fxLayout="row" fxLayoutAlign="center">
+        <h3 fxFlex="80">{{item.name}}</h3>
+        <a mat-button *ngIf="editIsEnabled" [routerLink]="['/item', item.id, 'edit']" >Edit</a>
+        </div>
+        <p>{{item.description}}</p>
+    </div>
+</div>
+
