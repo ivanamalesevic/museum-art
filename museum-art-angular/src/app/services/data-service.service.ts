@@ -4,6 +4,8 @@ import { Observable, of } from 'rxjs';
 import { ArtModel } from '../models/art-model';
 import { tap } from 'rxjs/operators';
 import { DataModel } from '../models/data-model';
+import { map } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -39,7 +41,9 @@ export class DataServiceService {
       );
   }
 
-  updateItem(item: ArtModel): void {
+  updateItem(item: ArtModel): Observable<boolean> {
+    const result = new Subject<boolean>();
+
     this.httpClient
       .put('http://localhost:3030/updateItem', {
         item: {
@@ -59,6 +63,14 @@ export class DataServiceService {
           'collection',
           JSON.stringify((data as DataModel).tree)
         );
+        result.next(true);
+        result.complete();
+      },
+      () => {
+        result.next(false);
+        result.complete();
       });
+
+      return result.asObservable();
   }
 }

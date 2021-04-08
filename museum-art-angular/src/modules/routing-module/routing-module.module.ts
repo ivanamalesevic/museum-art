@@ -5,6 +5,7 @@ import { EditItemComponent } from 'src/app/pages/edit-item/edit-item.component';
 import { PreviewComponent } from 'src/app/pages/preview/preview.component';
 
 const routes: Routes = [
+ 
   {
     path: 'item/:id/edit',
     component: EditItemComponent

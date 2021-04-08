@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { DataServiceService } from '../services/data-service.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { StateServiceService } from '../services/state-service.service';
 
 interface CollectionNode {
   name?: string;
@@ -16,25 +17,40 @@ interface CollectionNode {
 })
 export class TreeComponent implements OnInit {
   dataChange = new BehaviorSubject<CollectionNode[]>([]);
+  subscription: Subscription;
+  // updateTree: boolean = false;
   nestedTreeControl = new NestedTreeControl<CollectionNode>(
     (node) => node.collection
   );
   nestedDataSource: any = new MatTreeNestedDataSource<any>();
   selectedRadio: string = 'all';
   searchName: string = '';
-  constructor(private dataService: DataServiceService) {}
-
-  ngOnInit(): void {
-    this.getItems()
-    // this.dataChange.subscribe((data) => (this.nestedDataSource.data = data));
-
-    this.nestedTreeControl.dataNodes = this.nestedDataSource.data;
-    this.nestedTreeControl.expandAll();
-    
+  constructor(private dataService: DataServiceService, private stateService: StateServiceService) {
+    this.subscription = this.stateService.updateTree.subscribe(
+      (res) => {
+        if(res){
+          this.initTree();
+          this.stateService.updateTree.next(false);
+        }
+      }
+    );
   }
 
-  getItems(): void{
-    this.dataService.getItems().subscribe(res => this.nestedDataSource.data.push(res))
+  ngOnInit(): void {
+    // this.dataChange.subscribe((data) => (this.nestedDataSource.data = data));
+    this.initTree();
+  }
+
+  initTree(): void {
+    this.getItems();
+    this.nestedTreeControl.dataNodes = this.nestedDataSource.data;
+    this.nestedTreeControl.expandAll();
+  }
+
+  getItems(): void {
+    this.dataService
+      .getItems()
+      .subscribe((res) => (this.nestedDataSource.data[0] = res));
   }
 
   hasChild = (_: number, node: any) =>
@@ -73,7 +89,7 @@ export class TreeComponent implements OnInit {
         });
       }
     );
-    this.dataChange.next(filteredData.data)
+    this.dataChange.next(filteredData.data);
     console.log(this.nestedDataSource.data);
   }
 }

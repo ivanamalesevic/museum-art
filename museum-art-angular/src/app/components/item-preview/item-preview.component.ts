@@ -9,6 +9,7 @@ import { ArtModel } from 'src/app/models/art-model';
 export class ItemPreviewComponent implements OnInit {
   @Input() editIsEnabled = true;
   @Input() item: ArtModel = {};
+  @Input() hidePreviewComponent = false;
   constructor() { }
 
   ngOnInit(): void {

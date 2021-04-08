@@ -1,4 +1,8 @@
-<div fxLayout="row" fxLayoutAlign="start stretch">
-  <app-tree *ngIf="!hideTree"></app-tree>
-  <router-outlet></router-outlet>
+<div fxLayout="row" fxFlexFill>
+  <div fxFlex="0 0 40%" *ngIf="!hideTree">
+    <app-tree ></app-tree>
+  </div>
+  <div fxFlex="1 1 100%">
+    <router-outlet></router-outlet>
+  </div>
 </div>

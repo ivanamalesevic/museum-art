@@ -10,17 +10,18 @@ import { StateServiceService } from 'src/app/services/state-service.service';
   styleUrls: ['./edit-item.component.scss'],
 })
 export class EditItemComponent implements OnInit, OnDestroy {
-  // item: ArtModel = {};
-  hideEditComponent: boolean = false;
+  item: ArtModel = {};
+  itemPreview: ArtModel = {};
+  // hideEditComponent: boolean = false;
   constructor(
     private stateService: StateServiceService,
-    private route: ActivatedRoute,
     public router: Router,
+    private route: ActivatedRoute,
     private dataService: DataServiceService
   ) {
     this.stateService.hideTree.next(true);
     this.stateService.editIsEnabled.next(false);
-    
+    // this.stateService.hideEditComponent.next(false);
   }
   ngOnDestroy(): void {
     this.stateService.hideTree.next(false);
@@ -28,25 +29,44 @@ export class EditItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // this.route.paramMap.subscribe(
-    //   (params) =>
-    //     (this.item = JSON.parse(
-    //       localStorage.getItem(`item${+params.get('id')!}`)!
-    //     ))
+    // this.stateService.hideEditComponent.subscribe(
+    //   (res) => (this.hideEditComponent = res)
     // );
-    this.stateService.hideEditComponent.subscribe(res => this.hideEditComponent = res)
+    this.route.paramMap.subscribe(
+      (params) =>
+        {
+          if(params.get('id')){
+            this.dataService.getItemById(+params.get('id')!).subscribe(
+              res => {
+                this.item = res;
+                this.itemPreview = res;
+              }
+            )
+          }
+          
+        }
+    );
   }
 
-  // saveEditedItem(): void {
-  //   this.item.name = (document.getElementById(
-  //     'title'
-  //   ) as HTMLInputElement).value;
-  //   this.item.url = (document.getElementById('url') as HTMLInputElement).value;
-  //   this.item.description = (document.getElementById(
-  //     'description'
-  //   ) as HTMLInputElement).value;
-  //   this.dataService.updateItem(this.item);
-  //   this.stateService.hideTree.next(false)
-  //   this.stateService.hideEditComponent.next(true)
-  // }
+  saveEditedItem(): void {
+    this.item.name = (document.getElementById(
+      'title'
+    ) as HTMLInputElement).value;
+    this.item.url = (document.getElementById('url') as HTMLInputElement).value;
+    this.item.description = (document.getElementById(
+      'description'
+    ) as HTMLInputElement).value;
+    this.dataService.updateItem(this.item).subscribe((res) => {
+      if (res) {
+        this.stateService.updateTree.next(true);
+        this.router.navigate([`item/${this.item.id}`]);
+      }
+    });
+  }
+
+  previewEdit(): void {
+    this.itemPreview.name = (document.getElementById(
+      'title'
+    ) as HTMLInputElement).value;
+  }
 }
