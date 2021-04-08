@@ -25,10 +25,10 @@ import { FormsModule } from '@angular/forms';
     TreeComponent,
     PreviewComponent,
     EditItemComponent,
-    ItemPreviewComponent,
-    FormsModule
+    ItemPreviewComponent
   ],
   imports: [
+    FormsModule,
     MatIconModule,
     BrowserModule,
     NgbModule,

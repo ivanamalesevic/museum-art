@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, Output } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArtModel } from 'src/app/models/art-model';
 import { DataServiceService } from 'src/app/services/data-service.service';
@@ -48,14 +49,10 @@ export class EditItemComponent implements OnInit, OnDestroy {
     );
   }
 
-  saveEditedItem(): void {
-    this.item.name = (document.getElementById(
-      'title'
-    ) as HTMLInputElement).value;
-    this.item.url = (document.getElementById('url') as HTMLInputElement).value;
-    this.item.description = (document.getElementById(
-      'description'
-    ) as HTMLInputElement).value;
+  saveEditedItem(form: NgForm): void {
+    this.item.name = form.value.title;
+    this.item.url = form.value.url;
+    this.item.description = form.value.description;
     this.dataService.updateItem(this.item).subscribe((res) => {
       if (res) {
         this.stateService.updateTree.next(true);
@@ -64,9 +61,9 @@ export class EditItemComponent implements OnInit, OnDestroy {
     });
   }
 
-  previewEdit(): void {
-    this.itemPreview.name = (document.getElementById(
-      'title'
-    ) as HTMLInputElement).value;
+  previewEdit(form: NgForm): void {
+    this.itemPreview.name = form.value.title;
+    this.itemPreview.url = form.value.url;
+    this.itemPreview.description = form.value.description;
   }
 }
