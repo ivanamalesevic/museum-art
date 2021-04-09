@@ -13,6 +13,7 @@ import { StateServiceService } from 'src/app/services/state-service.service';
 export class EditItemComponent implements OnInit, OnDestroy {
   item: ArtModel = {};
   itemPreview: ArtModel = {};
+  regex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
   // hideEditComponent: boolean = false;
   constructor(
     private stateService: StateServiceService,
@@ -33,20 +34,20 @@ export class EditItemComponent implements OnInit, OnDestroy {
     // this.stateService.hideEditComponent.subscribe(
     //   (res) => (this.hideEditComponent = res)
     // );
-    this.route.paramMap.subscribe(
-      (params) =>
-        {
-          if(params.get('id')){
-            this.dataService.getItemById(+params.get('id')!).subscribe(
-              res => {
-                this.item = res;
-                this.itemPreview = res;
-              }
-            )
+    this.route.paramMap.subscribe((params) => {
+      if (params.get('id')) {
+        this.dataService.getItemById(+params.get('id')!).subscribe((res) => {
+          this.item = res;
+          this.itemPreview = {
+            name: res.name,
+            description: res.description,
+            id: res.id,
+            url: res.url,
+            type: res.type
           }
-          
-        }
-    );
+        });
+      }
+    });
   }
 
   saveEditedItem(form: NgForm): void {

@@ -1,19 +1,39 @@
 <div fxLayout="row" fxFlexFill fxLayoutGap="16px">
   <div fxFlex="0 0 50%">
-    <div fxLayout="column" fxLayoutAlign="space-between stretch">
+    <div fxLayout="column">
       <form #editForm="ngForm">
         <mat-form-field>
           <input
             matInput
             placeholder="Title"
-            value="{{ item.name }}"
             name="title"
             ngModel
+            required
+            #title="ngModel"
+            [(ngModel)]="item.name"
           />
+          <mat-error *ngIf="title.touched && !title.valid"
+            >Please enter a title!</mat-error
+          >
         </mat-form-field>
+        <br />
         <mat-form-field>
-          <input matInput placeholder="URL" value="{{ item.url }}" name="url" ngModel/>
+          <input
+            matInput
+            type="url"
+            placeholder="URL"
+            value="{{ item.url }}"
+            name="url"
+            ngModel
+            required
+            #url="ngModel"
+            [(ngModel)]="item.url"
+          />
+          <mat-error *ngIf="url.touched && !url.valid"
+            >Please enter a valid url!</mat-error
+          >
         </mat-form-field>
+        <br />
         <mat-form-field>
           <textarea
             matInput
@@ -21,14 +41,29 @@
             value="{{ item.description }}"
             name="description"
             ngModel
+            required
+            #description="ngModel"
+            [(ngModel)]="item.description"
           ></textarea>
+          <mat-error *ngIf="description.touched && !description.valid"
+            >Please enter a description!</mat-error
+          >
         </mat-form-field>
 
         <div fxLayout="row" fxLayoutAlign="space-between stretch">
-          <button (click)="saveEditedItem(editForm)" mat-raised-button color="primary">
+          <button
+            (click)="saveEditedItem(editForm)"
+            mat-raised-button
+            color="primary"
+            [disabled]="!editForm.valid"
+          >
             Save
           </button>
-          <button mat-stroked-button color="primary" (click)="previewEdit(editForm)">
+          <button
+            mat-stroked-button
+            color="primary"
+            (click)="previewEdit(editForm)"
+          >
             Preview
           </button>
         </div>
@@ -36,6 +71,6 @@
     </div>
   </div>
   <div fxFlex="0 0 50%">
-    <app-item-preview [editIsEnabled]="false" [item]="item"></app-item-preview>
+    <app-item-preview [editIsEnabled]="false" [item]="itemPreview"></app-item-preview>
   </div>
 </div>
