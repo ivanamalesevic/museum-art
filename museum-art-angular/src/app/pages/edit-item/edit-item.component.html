@@ -26,6 +26,7 @@
             name="url"
             ngModel
             required
+            [pattern]="regex"
             #url="ngModel"
             [(ngModel)]="item.url"
           />

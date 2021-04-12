@@ -37,6 +37,9 @@ export class TreeComponent implements OnInit, OnDestroy {
       if (res) {
         this.nestedDataSource.data = null;
         this.nestedDataSource.data = this.filteredData.data;
+        this.nestedTreeControl.dataNodes = this.nestedDataSource.data;
+        this.nestedTreeControl.expandAll();
+       
       }
     });
   }
@@ -56,14 +59,13 @@ export class TreeComponent implements OnInit, OnDestroy {
 
   initTree(): void {
     this.getItems();
-
     this.nestedTreeControl.dataNodes = this.nestedDataSource.data;
     this.nestedTreeControl.expandAll();
   }
 
   getItems(): void {
     this.dataService.getItems().subscribe((res) => {
-      this.nestedDataSource.data.push(res);
+      this.nestedDataSource.data[0] = res;
     });
   }
 
@@ -85,13 +87,11 @@ export class TreeComponent implements OnInit, OnDestroy {
   //filtering the tree component
   updateDataSource() {
     this.nestedDataSource.data.pop();
-    this.nestedDataSource.data.push(
-      JSON.parse(localStorage.getItem('collection')!)
-    );
+    this.nestedDataSource.data[0] = JSON.parse(localStorage.getItem('collection')!);
     this.filteredData.data[0] = JSON.parse(localStorage.getItem('collection')!);
     this.filteredData.data[0].collection = this.nestedDataSource.data[0].collection.map(
       (collection: any) => {
-        return collection.collection.filter((item: any) => {
+        collection.collection =  collection.collection.filter((item: any) => {
           if (
             (this.selectedRadio === 'all' ||
               this.selectedRadio === item.type) &&
@@ -100,9 +100,9 @@ export class TreeComponent implements OnInit, OnDestroy {
           )
             return item;
         });
+        return collection;
       }
     );
-    console.log(this.filteredData.data);
     this.filterTree.next(true);
   }
 }
