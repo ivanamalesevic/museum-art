@@ -16,7 +16,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
   editIsEnabled: boolean = true;
   hidePreviewComponent: boolean = false;
   subscription: Subscription;
-  // previewSubscription: Subscription;
+
   constructor(
     private dataService: DataServiceService,
     private route: ActivatedRoute,
@@ -26,9 +26,6 @@ export class PreviewComponent implements OnInit, OnDestroy {
     this.subscription = this.stateService.editIsEnabled.subscribe(
       (res) => (this.editIsEnabled = res)
     );
-    // this.previewSubscription = this.stateService.hidePreviewComponent.subscribe(
-    //   (res) => (this.hidePreviewComponent = res)
-    // );
   }
   ngOnDestroy(): void {
     if (this.subscription) {

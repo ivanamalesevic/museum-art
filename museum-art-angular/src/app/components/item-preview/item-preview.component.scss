@@ -1,0 +1,33 @@
+$border-color: #A9A9A9;
+$border: 1px solid $border-color;
+$margin: 15px;
+
+.main-preview-div{
+    height: 100%;
+    border-left: $border;
+}
+
+.img-div {
+    border-bottom: $border;
+}
+
+img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: $margin;
+}
+
+.desc-div {
+    margin: $margin;
+}
+
+button{
+    position: absolute;
+    right: 30px;
+}
+
+p{
+    text-align: justify;
+    margin-right: $margin;
+}

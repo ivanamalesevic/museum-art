@@ -1,6 +1,6 @@
 <div fxLayout="row" fxFlexFill fxLayoutGap="16px">
   <div fxFlex="0 0 50%">
-    <div fxLayout="column">
+    <div fxLayout="column" class="form-div">
       <form #editForm="ngForm">
         <mat-form-field>
           <input
@@ -45,6 +45,7 @@
             required
             #description="ngModel"
             [(ngModel)]="item.description"
+            rows=32
           ></textarea>
           <mat-error *ngIf="description.touched && !description.valid"
             >Please enter a description!</mat-error

@@ -4,7 +4,6 @@ import { Observable, of } from 'rxjs';
 import { ArtModel } from '../models/art-model';
 import { tap } from 'rxjs/operators';
 import { DataModel } from '../models/data-model';
-import { map } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 @Injectable({
@@ -15,7 +14,7 @@ export class DataServiceService {
 
   getItems(): Observable<ArtModel> {
     let collection = JSON.parse(localStorage.getItem('collection')!);
-    if (collection != null) {
+    if (collection !== null) {
       return of(collection);
     }
 
@@ -54,23 +53,25 @@ export class DataServiceService {
           type: item.type,
         },
       })
-      .subscribe((data) => {
-        localStorage.setItem(
-          `item${item.id}`,
-          JSON.stringify((data as DataModel).item)
-        );
-        localStorage.setItem(
-          'collection',
-          JSON.stringify((data as DataModel).tree)
-        );
-        result.next(true);
-        result.complete();
-      },
-      () => {
-        result.next(false);
-        result.complete();
-      });
+      .subscribe(
+        (data) => {
+          localStorage.setItem(
+            `item${item.id}`,
+            JSON.stringify((data as DataModel).item)
+          );
+          localStorage.setItem(
+            'collection',
+            JSON.stringify((data as DataModel).tree)
+          );
+          result.next(true);
+          result.complete();
+        },
+        () => {
+          result.next(false);
+          result.complete();
+        }
+      );
 
-      return result.asObservable();
+    return result.asObservable();
   }
 }
