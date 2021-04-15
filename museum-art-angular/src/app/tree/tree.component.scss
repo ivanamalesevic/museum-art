@@ -22,6 +22,9 @@ mat-form-field {
 
 a {
   color: $font-color;
+  &:focus {
+    color: blue;
+  }
 }
 
 .mat-tree-node{
@@ -31,3 +34,4 @@ a {
 .main-tree-div{
   height: 100%;
 }
+

@@ -62,11 +62,9 @@ export class TreeComponent implements OnInit, OnDestroy {
 
   getItems(): void {
     this.dataService.getItems().subscribe((res) => {
-      if (res) {
-        this.nestedDataSource.data[0] = res;
-        this.nestedTreeControl.dataNodes = this.nestedDataSource.data;
-        this.nestedTreeControl.expandAll();
-      }
+      this.nestedDataSource.data[0] = res;
+      this.nestedTreeControl.dataNodes = this.nestedDataSource.data;
+      this.nestedTreeControl.expandAll();
     });
   }
 
