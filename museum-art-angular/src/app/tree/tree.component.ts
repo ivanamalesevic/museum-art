@@ -64,6 +64,8 @@ export class TreeComponent implements OnInit, OnDestroy {
   getItems(): void {
     this.dataService.getItems().subscribe((res) => {
       this.nestedDataSource.data[0] = res;
+      this.filteredData.data[0] = res;
+      this.filterTree.next(true);
       this.initTree();
     });
   }
