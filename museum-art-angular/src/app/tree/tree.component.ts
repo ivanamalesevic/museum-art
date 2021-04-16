@@ -88,10 +88,10 @@ export class TreeComponent implements OnInit, OnDestroy {
   //filtering the tree component
   updateDataSource() {
     this.nestedDataSource.data.pop();
+    //reset nestedDataSource
     this.nestedDataSource.data[0] = JSON.parse(
       localStorage.getItem('collection')!
     );
-    this.filteredData.data[0] = JSON.parse(localStorage.getItem('collection')!);
     this.filteredData.data[0].collection = this.nestedDataSource.data[0].collection.map(
       (collection: any) => {
         collection.collection = collection.collection.filter((item: any) => {
