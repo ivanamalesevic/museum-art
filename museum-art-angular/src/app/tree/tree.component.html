@@ -15,7 +15,7 @@
   </mat-radio-group>
   <br />
   <mat-form-field>
-    <input matInput type="text" (keyup)="handleSearchInputChange($event)" />
+    <input matInput type="text" (keyup)="handleSearchInputChange($event)" placeholder="Search..." />
   </mat-form-field>
   <mat-tree
     [dataSource]="nestedDataSource"
